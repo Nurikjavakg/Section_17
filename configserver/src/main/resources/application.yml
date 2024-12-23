@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: "configserver"
+  profiles:
+   active: git
+  cloud:
+    config:
+      server:
+       git:
+         uri: "https://github.com/Nurikjavakg/eazybytes-config-1.git"
+         default-label: main
+         timeout: 50
+         clone-on-start: true
+         force-pull: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+encrypt:
+  key: "432afda43ffgaas"
+
+server:
+  port: 8071
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
